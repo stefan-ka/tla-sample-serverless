@@ -1,0 +1,57 @@
+org: ostcldsol
+app: tla-sample-serverless
+service: tla-sample-serverless
+provider:
+  name: aws
+  region: us-east-1
+  runtime: java17
+  timeout: 10
+  environment:
+    TLA_TABLE_NAME: tla-table-dev
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:BatchGetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource:
+        - !GetAtt TLADynamoDBTable.Arn
+
+package:
+  artifact: target/tla-sample-serverless-1.2-SNAPSHOT-aws.jar
+
+resources:
+  Resources:
+    TLADynamoDBTable:
+      Type: "AWS::DynamoDB::Table"
+      Properties:
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: "name"
+            AttributeType: "S"
+        KeySchema:
+          - AttributeName: "name"
+            KeyType: "HASH"
+        TableName: ${self:provider.environment.TLA_TABLE_NAME}
+
+functions:
+  read_all_tlas:
+    handler: org.springframework.cloud.function.adapter.aws.FunctionInvoker::handleRequest
+    environment:
+      SPRING_CLOUD_FUNCTION_DEFINITION: getAllTLAsHandler
+    events:
+      - httpApi:
+          path: /tlas
+          method: get
+  read_tla_by_name:
+    handler: org.springframework.cloud.function.adapter.aws.FunctionInvoker::handleRequest
+    environment:
+      SPRING_CLOUD_FUNCTION_DEFINITION: getTLAByNameHandler
+    events:
+      - httpApi:
+          path: /tlas/{name}
+          method: get
