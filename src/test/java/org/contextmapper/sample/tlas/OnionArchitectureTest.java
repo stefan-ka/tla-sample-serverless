@@ -39,6 +39,7 @@ class OnionArchitectureTest {
                 .adapter("web-api", BASE_PACKAGE + ".infrastructure.webapi..")
                 .adapter("persistence", BASE_PACKAGE + ".infrastructure.persistence..")
                 .adapter("application", BASE_PACKAGE + ".infrastructure.application..")
+                .adapter("migration", BASE_PACKAGE + ".infrastructure.migration..")
                 .ensureAllClassesAreContainedInArchitecture()
                 .withOptionalLayers(true) // no domain services yet
                 .check(new ClassFileImporter()

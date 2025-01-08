@@ -23,7 +23,6 @@ public class DynamoDBThreeLetterAbbreviationRepository {
 
     private static final DynamoDbClient dynamoDbClient = DynamoDbClient.builder()
             .credentialsProvider(DefaultCredentialsProvider.create())
-            //.region(Region.EU_CENTRAL_1)
             .overrideConfiguration(ClientOverrideConfiguration.builder()
                     .build())
             .httpClient(UrlConnectionHttpClient.builder().build())
@@ -51,6 +50,13 @@ public class DynamoDBThreeLetterAbbreviationRepository {
         return scanResponse.items().stream()
                 .map(i -> TLAMapper.tlaFromDynamoDB(i))
                 .collect(Collectors.toList());
+    }
+
+    public void putTLA(final ThreeLetterAbbreviation tla) {
+        dynamoDbClient.putItem(PutItemRequest.builder()
+                .tableName(TABLE_NAME)
+                .item(TLAMapper.tlaToDynamoDb(tla))
+                .build());
     }
 
 }

@@ -52,4 +52,8 @@ public class TlaApplicationService {
         }
     }
 
+    public ThreeLetterAbbreviation save(final ThreeLetterAbbreviation tla) {
+        return repository.save(tla);
+    }
+
 }

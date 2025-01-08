@@ -55,3 +55,8 @@ functions:
       - httpApi:
           path: /tlas/{name}
           method: get
+  seed_database:
+    handler: org.springframework.cloud.function.adapter.aws.FunctionInvoker::handleRequest
+    environment:
+      SPRING_CLOUD_FUNCTION_DEFINITION: databaseSeedHandler
+

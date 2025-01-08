@@ -16,7 +16,6 @@
 
 package org.contextmapper.sample.tlas.infrastructure.persistence;
 
-import org.apache.commons.lang3.NotImplementedException;
 import org.contextmapper.sample.tlas.domain.tla.ShortName;
 import org.contextmapper.sample.tlas.domain.tla.ThreeLetterAbbreviation;
 import org.contextmapper.sample.tlas.domain.tla.ThreeLetterAbbreviationRepository;
@@ -40,7 +39,8 @@ public class ThreeLetterAbbreviationRepositoryImpl implements ThreeLetterAbbrevi
 
     @Override
     public ThreeLetterAbbreviation save(final ThreeLetterAbbreviation tla) {
-        throw new NotImplementedException();
+        dynamoInternalRepo.putTLA(tla);
+        return findByName(tla.getName()).orElseThrow();
     }
 
     @Override

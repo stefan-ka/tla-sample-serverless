@@ -84,6 +84,8 @@ public class ThreeLetterAbbreviation {
     }
 
     public String getLink() {
+        if (link == null)
+            return null;
         return link.toString();
     }
 
