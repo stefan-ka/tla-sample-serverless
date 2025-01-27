@@ -8,9 +8,10 @@ import org.apache.commons.logging.LogFactory;
 import org.contextmapper.sample.tlas.application.TlaGroupsApplicationService;
 import org.contextmapper.sample.tlas.infrastructure.webapi.mapper.TlaApiDTOMapper;
 import org.springframework.stereotype.Component;
-import software.amazon.awssdk.http.HttpStatusCode;
 
 import java.util.function.Function;
+
+import static software.amazon.awssdk.http.HttpStatusCode.*;
 
 @Component
 public class GetAllTLAsHandler implements Function<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
@@ -38,10 +39,14 @@ public class GetAllTLAsHandler implements Function<APIGatewayProxyRequestEvent, 
                     .map(TlaApiDTOMapper::tlaGroupToDto)
                     .toList();
             logger.info(GetAllTLAsHandler.class.getName() + " returning " + tlaGroups.size() + " TLA groups");
-            return responseFactory.createResponseEvent(objectMapper.writeValueAsString(tlaGroups));
+            var status = OK;
+            if (tlaGroups.isEmpty()) {
+                status = NOT_FOUND;
+            }
+            return responseFactory.createResponseEvent(objectMapper.writeValueAsString(tlaGroups), status);
         } catch (Exception e) {
             logger.error("Internal error has happened", e);
-            return new APIGatewayProxyResponseEvent().withStatusCode(HttpStatusCode.INTERNAL_SERVER_ERROR)
+            return new APIGatewayProxyResponseEvent().withStatusCode(INTERNAL_SERVER_ERROR)
                     .withBody("Internal error has happened: " + e.getMessage());
         }
 

@@ -27,7 +27,7 @@ public class DatabaseSeedHandler implements Function<String, String> {
     public String apply(String unused) {
         logger.info("DatabaseSeedHandler called");
         try {
-            service.save(new TLAGroup.TLAGroupBuilder(COMMON_GROUP)
+            service.addTLAGroup(new TLAGroup.TLAGroupBuilder(COMMON_GROUP)
                     .withDescription("Common TLA group")
                     .withTLA(new ThreeLetterAbbreviation.TLABuilder("TLA")
                             .withMeaning("Three Letter Abbreviation")
@@ -36,7 +36,7 @@ public class DatabaseSeedHandler implements Function<String, String> {
                             .build())
                     .build());
 
-            service.save(new TLAGroup.TLAGroupBuilder("AppArch")
+            service.addTLAGroup(new TLAGroup.TLAGroupBuilder("AppArch")
                     .withDescription("Application Architecture")
                     .withTLA(new ThreeLetterAbbreviation.TLABuilder("ADR")
                             .withMeaning("Architectural Decision Record")
@@ -45,7 +45,7 @@ public class DatabaseSeedHandler implements Function<String, String> {
                             .build())
                     .build());
 
-            service.save(new TLAGroup.TLAGroupBuilder("DDD")
+            service.addTLAGroup(new TLAGroup.TLAGroupBuilder("DDD")
                     .withDescription("Domain-Driven Design")
                     .withTLA(new ThreeLetterAbbreviation.TLABuilder("OHS")
                             .withMeaning("Open Host Service")

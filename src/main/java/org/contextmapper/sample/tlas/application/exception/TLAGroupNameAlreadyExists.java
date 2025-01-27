@@ -16,10 +16,10 @@
 
 package org.contextmapper.sample.tlas.application.exception;
 
-public class TLAGroupShortNameDoesNotExist extends RuntimeException {
+public class TLAGroupNameAlreadyExists extends RuntimeException {
 
-    public TLAGroupShortNameDoesNotExist(final String name) {
-        super("A TLA '" + name + "' does not exist!");
+    public TLAGroupNameAlreadyExists(final String name) {
+        super("A TLA group with name '" + name + "' already exists!");
     }
 
 }
