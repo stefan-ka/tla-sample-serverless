@@ -63,6 +63,30 @@ functions:
       - httpApi:
           path: /tlas/{groupName}
           method: get
+  add_new_tla_group:
+    handler: org.springframework.cloud.function.adapter.aws.FunctionInvoker::handleRequest
+    environment:
+      SPRING_CLOUD_FUNCTION_DEFINITION: addTLAGroupHandler
+    events:
+      - httpApi:
+          path: /tlas
+          method: post
+  add_new_tla:
+    handler: org.springframework.cloud.function.adapter.aws.FunctionInvoker::handleRequest
+    environment:
+      SPRING_CLOUD_FUNCTION_DEFINITION: addTLAHandler
+    events:
+      - httpApi:
+          path: /tlas/{groupName}
+          method: post
+  accept_tla:
+    handler: org.springframework.cloud.function.adapter.aws.FunctionInvoker::handleRequest
+    environment:
+      SPRING_CLOUD_FUNCTION_DEFINITION: acceptTLAHandler
+    events:
+      - httpApi:
+          path: /tlas/{groupName}/{name}/accept
+          method: put
   seed_database:
     handler: org.springframework.cloud.function.adapter.aws.FunctionInvoker::handleRequest
     environment:

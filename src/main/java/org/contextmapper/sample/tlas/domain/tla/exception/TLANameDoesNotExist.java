@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package org.contextmapper.sample.tlas.application.exception;
+package org.contextmapper.sample.tlas.domain.tla.exception;
 
-public class TLAGroupShortNameNotValid extends RuntimeException {
+public class TLANameDoesNotExist extends RuntimeException {
 
-    public TLAGroupShortNameNotValid(final String name) {
-        super("'" + name + "' is not a valid TLA short name!");
+    public TLANameDoesNotExist(final String name) {
+        super("A TLA '" + name + "' does not exist!");
     }
 
 }

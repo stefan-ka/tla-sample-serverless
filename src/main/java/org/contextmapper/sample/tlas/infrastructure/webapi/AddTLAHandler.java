@@ -7,19 +7,19 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.contextmapper.sample.tlas.application.TlaGroupsApplicationService;
 import org.contextmapper.sample.tlas.application.exception.TLAGroupNameDoesNotExist;
-import org.contextmapper.sample.tlas.application.exception.TLAGroupNameNotValid;
-import org.contextmapper.sample.tlas.domain.tla.TLAGroup;
+import org.contextmapper.sample.tlas.infrastructure.webapi.dtos.TLADto;
 import org.springframework.stereotype.Component;
 import software.amazon.awssdk.http.HttpStatusCode;
 
 import java.util.function.Function;
 
+import static org.contextmapper.sample.tlas.infrastructure.webapi.mapper.TlaApiDTOMapper.tlaDtoToTla;
 import static org.contextmapper.sample.tlas.infrastructure.webapi.mapper.TlaApiDTOMapper.tlaGroupToDto;
 
 @Component
-public class GetTLAGroupByNameHandler implements Function<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
+public class AddTLAHandler implements Function<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
-    private static final Log logger = LogFactory.getLog(GetTLAGroupByNameHandler.class);
+    private static final Log logger = LogFactory.getLog(AddTLAHandler.class);
 
     private static final String GROUP_NAME_PARAM = "groupName";
 
@@ -27,9 +27,9 @@ public class GetTLAGroupByNameHandler implements Function<APIGatewayProxyRequest
     private final ObjectMapper objectMapper;
     private final ResponseEventFactory responseFactory;
 
-    public GetTLAGroupByNameHandler(final TlaGroupsApplicationService service,
-                                    final ObjectMapper objectMapper,
-                                    final ResponseEventFactory responseFactory) {
+    public AddTLAHandler(final TlaGroupsApplicationService service,
+                         final ObjectMapper objectMapper,
+                         final ResponseEventFactory responseFactory) {
         this.service = service;
         this.objectMapper = objectMapper;
         this.responseFactory = responseFactory;
@@ -37,16 +37,19 @@ public class GetTLAGroupByNameHandler implements Function<APIGatewayProxyRequest
 
     @Override
     public APIGatewayProxyResponseEvent apply(APIGatewayProxyRequestEvent requestEvent) {
+        logger.info(AddTLAHandler.class.getName() + " called");
         try {
             String name = requestEvent.getPathParameters().get(GROUP_NAME_PARAM);
-            TLAGroup tlaGroup = service.findGroupByName(name);
-            return responseFactory.createResponseEvent(objectMapper.writeValueAsString(tlaGroupToDto(tlaGroup)));
-        } catch (TLAGroupNameDoesNotExist | TLAGroupNameNotValid e) {
-            logger.error("TLA group not found", e);
-            return responseFactory.createErrorResponseEvent(HttpStatusCode.NOT_FOUND, e.getMessage());
+            var dto = objectMapper.readValue(requestEvent.getBody(), TLADto.class);
+            var tlaGroup = service.addTLA(name, tlaDtoToTla(dto));
+            return responseFactory.createResponseEvent(objectMapper.writeValueAsString(tlaGroupToDto(tlaGroup)), HttpStatusCode.CREATED);
+        } catch (TLAGroupNameDoesNotExist e) {
+            logger.error("TLA group name not found", e);
+            return responseFactory.createErrorResponseEvent(HttpStatusCode.BAD_REQUEST, e.getMessage());
         } catch (Exception e) {
-            logger.error("Internal server error", e);
-            return responseFactory.createErrorResponseEvent(HttpStatusCode.INTERNAL_SERVER_ERROR, e.getMessage());
+            logger.error("Internal error has happened", e);
+            return new APIGatewayProxyResponseEvent().withStatusCode(HttpStatusCode.INTERNAL_SERVER_ERROR)
+                    .withBody("Internal error has happened: " + e.getMessage());
         }
 
     }

@@ -2,6 +2,7 @@ package org.contextmapper.sample.tlas.domain.tla;
 
 import org.contextmapper.sample.tlas.domain.tla.exception.DuplicateTLANameException;
 import org.contextmapper.sample.tlas.domain.tla.exception.TLANameAlreadyExistsInGroupException;
+import org.contextmapper.sample.tlas.domain.tla.exception.TLANameDoesNotExist;
 import org.jmolecules.ddd.annotation.AggregateRoot;
 import org.jmolecules.ddd.annotation.Entity;
 
@@ -47,6 +48,14 @@ public class TLAGroup {
         return Collections.unmodifiableSet(this.tlas);
     }
 
+    public void acceptTLA(final ShortName shortName) {
+        var tla = this.tlas.stream()
+                .filter(t -> t.getName().equals(shortName))
+                .findFirst()
+                .orElseThrow(() -> new TLANameDoesNotExist(shortName.toString()));
+        tla.accept();
+    }
+
     public static class TLAGroupBuilder {
         private final ShortName name;
         private String description;
@@ -64,6 +73,11 @@ public class TLAGroup {
 
         public TLAGroupBuilder withTLA(final ThreeLetterAbbreviation tla) {
             this.tlas.add(tla);
+            return this;
+        }
+
+        public TLAGroupBuilder withTLAs(final Collection<ThreeLetterAbbreviation> tlas) {
+            this.tlas.addAll(tlas);
             return this;
         }
 

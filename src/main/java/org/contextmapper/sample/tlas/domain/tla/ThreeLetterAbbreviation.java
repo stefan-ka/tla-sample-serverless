@@ -142,7 +142,7 @@ public class ThreeLetterAbbreviation implements Comparable<ThreeLetterAbbreviati
             return this;
         }
 
-        public TLABuilder withAlternativeMeanings(final List<String> alternativeMeanings) {
+        public TLABuilder withAlternativeMeanings(final Collection<String> alternativeMeanings) {
             this.alternativeMeanings.addAll(alternativeMeanings);
             return this;
         }

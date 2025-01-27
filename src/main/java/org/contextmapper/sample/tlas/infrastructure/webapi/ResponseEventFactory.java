@@ -14,10 +14,10 @@ import java.util.Map;
 @Component
 public class ResponseEventFactory {
 
-    private static Log logger = LogFactory.getLog(ResponseEventFactory.class);
+    private static final Log logger = LogFactory.getLog(ResponseEventFactory.class);
 
-    private ObjectMapper objectMapper;
-    private Map<String, String> headers = new HashMap<>();
+    private final ObjectMapper objectMapper;
+    private final Map<String, String> headers = new HashMap<>();
 
     public ResponseEventFactory(final ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
@@ -26,11 +26,22 @@ public class ResponseEventFactory {
     }
 
     public APIGatewayProxyResponseEvent createResponseEvent(final String jsonString) {
+        return createResponseEvent(jsonString, HttpStatusCode.OK);
+    }
+
+    public APIGatewayProxyResponseEvent createResponseEvent(final String jsonString, final int statusCode) {
         return new APIGatewayProxyResponseEvent()
                 .withHeaders(headers)
-                .withStatusCode(HttpStatusCode.OK)
+                .withStatusCode(statusCode)
                 .withIsBase64Encoded(false)
                 .withBody(jsonString);
+    }
+
+    public APIGatewayProxyResponseEvent createEmptyResponseEvent(final int statusCode) {
+        return new APIGatewayProxyResponseEvent()
+                .withHeaders(headers)
+                .withStatusCode(statusCode)
+                .withIsBase64Encoded(false);
     }
 
     public APIGatewayProxyResponseEvent createErrorResponseEvent(final int statusCode,
