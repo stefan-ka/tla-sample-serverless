@@ -39,21 +39,29 @@ resources:
         TableName: ${self:provider.environment.TLA_TABLE_NAME}
 
 functions:
+  read_all_tla_groups:
+    handler: org.springframework.cloud.function.adapter.aws.FunctionInvoker::handleRequest
+    environment:
+      SPRING_CLOUD_FUNCTION_DEFINITION: getAllTLAGroupsHandler
+    events:
+      - httpApi:
+          path: /tlas
+          method: get
   read_all_tlas:
     handler: org.springframework.cloud.function.adapter.aws.FunctionInvoker::handleRequest
     environment:
       SPRING_CLOUD_FUNCTION_DEFINITION: getAllTLAsHandler
     events:
       - httpApi:
-          path: /tlas
+          path: /tlas/all/{name}
           method: get
-  read_tla_by_name:
+  read_tla_group_by_name:
     handler: org.springframework.cloud.function.adapter.aws.FunctionInvoker::handleRequest
     environment:
-      SPRING_CLOUD_FUNCTION_DEFINITION: getTLAByNameHandler
+      SPRING_CLOUD_FUNCTION_DEFINITION: getTLAGroupByNameHandler
     events:
       - httpApi:
-          path: /tlas/{name}
+          path: /tlas/{groupName}
           method: get
   seed_database:
     handler: org.springframework.cloud.function.adapter.aws.FunctionInvoker::handleRequest

@@ -3,7 +3,7 @@ ContextMap ExamplaryMap {
     contains Sample_ClientApplication
 
     TLA_Resolver [OHS,PL]-> Sample_ClientApplication {
-        exposedAggregates ThreeLetterAbbreviation
+        exposedAggregates TLAGroup
         implementationTechnology "RESTful HTTP"
     }
 }
@@ -11,9 +11,22 @@ ContextMap ExamplaryMap {
 
 BoundedContext TLA_Resolver {
 
-    Aggregate ThreeLetterAbbreviation {
-        Entity ThreeLetterAbbreviation {
+    Aggregate TLAGroup {
+        Entity TLAGroup {
             aggregateRoot
+
+            - ShortName name;
+            String ^description;
+            - List<ThreeLetterAbbreviation> tlas;
+
+            Repository TLAGroupRepository {
+                @TLAGroup save(@TLAGroup tla);
+                Optional<@TLAGroup> findByName(@ShortName name);
+                List<@TLAGroup> findAll();
+            }
+        }
+        
+        Entity ThreeLetterAbbreviation {
             - ShortName name;
             String meaning;
             Set<String> alternativeMeanings;
@@ -24,13 +37,6 @@ BoundedContext TLA_Resolver {
             def accept() : write [ PROPOSED -> ACCEPTED ];
             def reject() : write [ PROPOSED -> ARCHIVED* ];
             def archive() : write [ ACCEPTED, PROPOSED -> ARCHIVED* ];
-
-            Repository ThreeLetterAbbreviationRepository {
-                @ThreeLetterAbbreviation save(@ThreeLetterAbbreviation tla);
-                Optional<@ThreeLetterAbbreviation> findByName(@ShortName name);
-                List<@ThreeLetterAbbreviation> findAll();
-            }
-
         }
 
         ValueObject ShortName {

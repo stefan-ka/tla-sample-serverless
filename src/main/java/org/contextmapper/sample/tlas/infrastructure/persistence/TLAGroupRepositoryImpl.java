@@ -17,8 +17,9 @@
 package org.contextmapper.sample.tlas.infrastructure.persistence;
 
 import org.contextmapper.sample.tlas.domain.tla.ShortName;
+import org.contextmapper.sample.tlas.domain.tla.TLAGroup;
 import org.contextmapper.sample.tlas.domain.tla.ThreeLetterAbbreviation;
-import org.contextmapper.sample.tlas.domain.tla.ThreeLetterAbbreviationRepository;
+import org.contextmapper.sample.tlas.domain.tla.TLAGroupRepository;
 import org.contextmapper.sample.tlas.infrastructure.persistence.internal_repos.DynamoDBThreeLetterAbbreviationRepository;
 import org.springframework.stereotype.Repository;
 
@@ -29,30 +30,30 @@ import static java.util.Optional.empty;
 import static java.util.Optional.of;
 
 @Repository
-public class ThreeLetterAbbreviationRepositoryImpl implements ThreeLetterAbbreviationRepository {
+public class TLAGroupRepositoryImpl implements TLAGroupRepository {
 
     private DynamoDBThreeLetterAbbreviationRepository dynamoInternalRepo;
 
-    public ThreeLetterAbbreviationRepositoryImpl(final DynamoDBThreeLetterAbbreviationRepository dynamoInternalRepo) {
+    public TLAGroupRepositoryImpl(final DynamoDBThreeLetterAbbreviationRepository dynamoInternalRepo) {
         this.dynamoInternalRepo = dynamoInternalRepo;
     }
 
     @Override
-    public ThreeLetterAbbreviation save(final ThreeLetterAbbreviation tla) {
-        dynamoInternalRepo.putTLA(tla);
-        return findByName(tla.getName()).orElseThrow();
+    public TLAGroup save(final TLAGroup group) {
+        dynamoInternalRepo.putTLAGroup(group);
+        return findByName(group.getName()).orElseThrow();
     }
 
     @Override
-    public Optional<ThreeLetterAbbreviation> findByName(final ShortName name) {
-        var optionalTLA = dynamoInternalRepo.findById(name.toString());
-        if (optionalTLA.isPresent())
-            return of(optionalTLA.get());
+    public Optional<TLAGroup> findByName(final ShortName name) {
+        var optionalTLAGroup = dynamoInternalRepo.findById(name.toString());
+        if (optionalTLAGroup.isPresent())
+            return of(optionalTLAGroup.get());
         return empty();
     }
 
     @Override
-    public List<ThreeLetterAbbreviation> findAll() {
+    public List<TLAGroup> findAll() {
         return dynamoInternalRepo.findAll();
     }
 }

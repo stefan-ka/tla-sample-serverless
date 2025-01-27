@@ -17,7 +17,6 @@
 package org.contextmapper.sample.tlas.domain.tla;
 
 import org.contextmapper.sample.tlas.domain.tla.exception.InvalidTLAStateTransitionException;
-import org.jmolecules.ddd.annotation.AggregateRoot;
 import org.jmolecules.ddd.annotation.Entity;
 
 import java.net.MalformedURLException;
@@ -28,8 +27,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static org.contextmapper.sample.tlas.domain.tla.TLAStatus.*;
 
 @Entity
-@AggregateRoot
-public class ThreeLetterAbbreviation {
+public class ThreeLetterAbbreviation implements Comparable<ThreeLetterAbbreviation> {
 
     private final ShortName name;
     private final String meaning;
@@ -112,6 +110,11 @@ public class ThreeLetterAbbreviation {
     @Override
     public int hashCode() {
         return Objects.hash(name);
+    }
+
+    @Override
+    public int compareTo(ThreeLetterAbbreviation tla) {
+        return this.name.compareTo(tla.getName());
     }
 
     public static class TLABuilder {
