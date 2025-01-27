@@ -16,10 +16,10 @@
 
 package org.contextmapper.sample.tlas.application.exception;
 
-public class TLAShortNameDoesNotExist extends RuntimeException {
+public class TLAGroupShortNameNotValid extends RuntimeException {
 
-    public TLAShortNameDoesNotExist(final String name) {
-        super("A TLA '" + name + "' does not exist!");
+    public TLAGroupShortNameNotValid(final String name) {
+        super("'" + name + "' is not a valid TLA short name!");
     }
 
 }

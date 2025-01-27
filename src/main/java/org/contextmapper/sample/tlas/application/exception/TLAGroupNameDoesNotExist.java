@@ -14,20 +14,12 @@
  * limitations under the License.
  */
 
-package org.contextmapper.sample.tlas.domain.tla;
+package org.contextmapper.sample.tlas.application.exception;
 
-import org.jmolecules.ddd.annotation.Repository;
+public class TLAGroupNameDoesNotExist extends RuntimeException {
 
-import java.util.List;
-import java.util.Optional;
-
-@Repository
-public interface ThreeLetterAbbreviationRepository {
-
-    ThreeLetterAbbreviation save(final ThreeLetterAbbreviation tla);
-
-    Optional<ThreeLetterAbbreviation> findByName(final ShortName name);
-
-    List<ThreeLetterAbbreviation> findAll();
+    public TLAGroupNameDoesNotExist(final String name) {
+        super("A TLA '" + name + "' does not exist!");
+    }
 
 }

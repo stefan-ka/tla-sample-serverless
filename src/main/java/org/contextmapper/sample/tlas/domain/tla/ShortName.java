@@ -23,9 +23,9 @@ import java.util.Objects;
 import static com.google.common.base.Preconditions.checkArgument;
 
 @ValueObject
-public class ShortName {
+public class ShortName implements Comparable<ShortName> {
 
-    private String name;
+    private final String name;
 
     public ShortName(final String name) {
         checkArgument(name != null, "Short name cannot be null!");
@@ -57,4 +57,8 @@ public class ShortName {
         return Objects.hash(name);
     }
 
+    @Override
+    public int compareTo(ShortName shortName) {
+        return this.name.compareTo(shortName.getName());
+    }
 }

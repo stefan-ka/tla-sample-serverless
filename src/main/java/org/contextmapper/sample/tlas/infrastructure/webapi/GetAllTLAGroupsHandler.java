@@ -13,17 +13,17 @@ import software.amazon.awssdk.http.HttpStatusCode;
 import java.util.function.Function;
 
 @Component
-public class GetAllTLAsHandler implements Function<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
+public class GetAllTLAGroupsHandler implements Function<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
-    private static final Log logger = LogFactory.getLog(GetAllTLAsHandler.class);
+    private static final Log logger = LogFactory.getLog(GetAllTLAGroupsHandler.class);
 
     private final TlaGroupsApplicationService service;
     private final ObjectMapper objectMapper;
     private final ResponseEventFactory responseFactory;
 
-    public GetAllTLAsHandler(final TlaGroupsApplicationService service,
-                             final ObjectMapper objectMapper,
-                             final ResponseEventFactory responseFactory) {
+    public GetAllTLAGroupsHandler(final TlaGroupsApplicationService service,
+                                  final ObjectMapper objectMapper,
+                                  final ResponseEventFactory responseFactory) {
         this.service = service;
         this.objectMapper = objectMapper;
         this.responseFactory = responseFactory;
@@ -31,13 +31,12 @@ public class GetAllTLAsHandler implements Function<APIGatewayProxyRequestEvent, 
 
     @Override
     public APIGatewayProxyResponseEvent apply(APIGatewayProxyRequestEvent requestEvent) {
-        logger.info(GetAllTLAsHandler.class.getName() + " called");
+        logger.info(GetAllTLAGroupsHandler.class.getName() + " called");
         try {
-            String name = requestEvent.getPathParameters().get("name");
-            var tlaGroups = service.findAllTLAsByName(name).stream()
+            var tlaGroups = service.findAllTLAGroups().stream()
                     .map(TlaApiDTOMapper::tlaGroupToDto)
                     .toList();
-            logger.info(GetAllTLAsHandler.class.getName() + " returning " + tlaGroups.size() + " TLA groups");
+            logger.info(GetAllTLAGroupsHandler.class.getName() + " returning " + tlaGroups.size() + " TLA groups");
             return responseFactory.createResponseEvent(objectMapper.writeValueAsString(tlaGroups));
         } catch (Exception e) {
             logger.error("Internal error has happened", e);
