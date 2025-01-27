@@ -1,7 +1,7 @@
 # Three Letter Abbreviations (TLA) Sample Application - Implemented Serverless
 [![Build and deploy main branch](https://github.com/stefan-ka/tla-sample-serverless/actions/workflows/main_build.yml/badge.svg)](https://github.com/stefan-ka/tla-sample-serverless/actions/workflows/main_build.yml) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-This repository implements the [Three Letter Abbreviations (TLA) Sample Application](https://github.com/ContextMapper/ddd-cm-tla-sample-application) of the [Context Mapper](https://contextmapper.org) project with serverless technology. It can easily be deployed on AWS. This, admittedly very trivial app, uses the following AWS services:
+This repository implements the [Three Letter Abbreviations (TLA) Sample Application](https://github.com/ContextMapper/ddd-cm-tla-sample-application) of the [Context Mapper](https://contextmapper.org) project with serverless technology. It can easily be deployed on AWS. The app illustrates basic CRUD operations using the following AWS services:
 
 ![TLA Sample App - Implemented Serverless](./docs/images/TLA-Sample-App-Serverless.jpg)
 
@@ -20,7 +20,7 @@ The app uses the following tools and frameworks:
    * Including the definition of the API endpoints and the DynamoDB table; see the [serverless.yml](https://github.com/stefan-ka/tla-sample-serverless/blob/main/serverless.yml) file. 
  * [GitHub Actions](https://github.com/stefan-ka/tla-sample-serverless/actions) as CI/CD tool to automatically deploy the app to AWS.
 
-## Build & Deploy the App
+## Build and Deploy the App
 
 Building the app and its JAR file is done with Maven:
 
