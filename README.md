@@ -53,15 +53,15 @@ _Disclaimer:_ Please note that we haven't implemented any identity and access co
 
 _Note_ that you will need to replace `{baseUrl}` with the URLs you get from `sls deploy` in all the following examples.
 
-| Endpoint                        | Method | Description                                                                                                            |
-|---------------------------------|--------|------------------------------------------------------------------------------------------------------------------------|
-| /tlas                           | GET    | Get all TLA groups including their TLAs (accepted TLAs only).                                                          |
-| /tlas?status=PROPOSED           | GET    | Get TLAs in PROPOSED state.                                                                                            |
-| /tlas                           | POST   | Create a new TLA group (see sample payload below). Containing TLAs will be in PROPOSED state.                          |
-| /tlas/{groupName}               | GET    | Get all TLAs of a specific group.                                                                                      |
-| /tlas/{groupName}               | POST   | Create a new TLA within an existing group (see sample payload below). The created TLA will be in PROPOSED state.       |
-| /tlas/all/{name}                | GET    | Search for a TLA over all groups. This query can return multiple TLAs as a single TLA is only unique within one group. |
-| /tlas/{groupName}/{name}/accept | PUT    | Accept a proposed TLA (state transition operation: PROPOSED -> ACCEPTED).                                              |
+| Endpoint                        | Method | Description                                                                                                                                                                                   |
+|---------------------------------|--------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| /tlas                           | GET    | Get all TLA groups including their TLAs (accepted TLAs only).                                                                                                                                 |
+| /tlas?status=PROPOSED           | GET    | Get TLAs in PROPOSED state.                                                                                                                                                                   |
+| /tlas                           | POST   | Create a new TLA group (see sample payload below). Containing TLAs will be in PROPOSED state.                                                                                                 |
+| /tlas/{groupName}               | GET    | Get all TLAs of a specific group.                                                                                                                                                             |
+| /tlas/{groupName}               | POST   | Create a new TLA within an existing group (see sample payload below). The created TLA will be in PROPOSED state.                                                                              |
+| /tlas/all/{name}                | GET    | Search for a TLA over all groups. This query can return multiple TLAs as a single TLA is only unique within one group.                                                                        |
+| /tlas/{groupName}/{name}/accept | PUT    | Accept a proposed TLA ([state transition operation](https://microservice-api-patterns.org/patterns/responsibility/operationResponsibilities/StateTransitionOperation): PROPOSED -> ACCEPTED). |
 
 ### Get All TLA Groups
 The `/tlas` (GET) endpoint returns all TLAs of all TLA groups that are in the `ACCEPTED` state (read on to see how to propose and accept new TLAs). Note that all TLAs are part of a group.
@@ -303,7 +303,7 @@ The endpoint `/tlas` (GET) offers a query parameter to list all TLAs in the `PRO
 ```
 
 ### Accept a Proposed TLA
-With the endpoint `/tlas/{groupName}/{name}/accept` (PUT) you can accept a TLA ("name") within a group ("groupName").
+With the endpoint `/tlas/{groupName}/{name}/accept` (PUT) you can accept a TLA ("name") within a group ("groupName"). This is a so-called [state transition operation](https://microservice-api-patterns.org/patterns/responsibility/operationResponsibilities/StateTransitionOperation).
 
 **Sample CURL**: `curl -X PUT {baseUrl}/tlas/FIN/ROI/accept` (puts the TLA 'ROI' in group 'FIN' into state `ACCEPTED`)
 
