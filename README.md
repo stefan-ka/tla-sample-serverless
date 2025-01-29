@@ -49,6 +49,8 @@ Now you can access the TLA's via the apps API: 🎉
 ## Use Cases and Endpoints
 The application currently supports the following use cases, for which we provide some sample CURLs. There is also a [Postman](https://www.postman.com/) collection in the `docs` folder.
 
+_Disclaimer:_ Please note that we haven't implemented any identity and access control measures for this sample application. All endpoints are publicly available; including the writing ones (commands). 
+
 _Note_ that you will need to replace `{baseUrl}` with the URLs you get from `sls deploy` in all the following examples.
 
 | Endpoint                        | Method | Description                                                                                                            |
