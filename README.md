@@ -320,4 +320,4 @@ Contributions are always welcome! Here are some ways how you can contribute:
   contribute this way.
 
 ## Licence
-Context Mapper is released under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
+This project is released under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).

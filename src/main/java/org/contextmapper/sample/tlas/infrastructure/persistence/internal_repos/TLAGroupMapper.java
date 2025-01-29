@@ -1,6 +1,3 @@
-// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
-// SPDX-License-Identifier: MIT-0
-
 package org.contextmapper.sample.tlas.infrastructure.persistence.internal_repos;
 
 import com.google.common.collect.Lists;
