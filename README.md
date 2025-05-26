@@ -1,5 +1,5 @@
 # Three Letter Abbreviations (TLA) Sample Application - Implemented Serverless
-[![Build and deploy main branch](https://github.com/stefan-ka/tla-sample-serverless/actions/workflows/main_build.yml/badge.svg)](https://github.com/stefan-ka/tla-sample-serverless/actions/workflows/main_build.yml) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Build and deploy main branch](https://github.com/OST-Cloud-Application-Lab/tla-sample-serverless/actions/workflows/main_build.yml/badge.svg)](https://github.com/OST-Cloud-Application-Lab/tla-sample-serverless/actions/workflows/main_build.yml) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 This repository implements the [Three Letter Abbreviations (TLA) Sample Application](https://github.com/ContextMapper/ddd-cm-tla-sample-application) of the [Context Mapper](https://contextmapper.org) project with serverless technology. It can easily be deployed on AWS. The app illustrates basic CRUD operations using the following AWS services:
 
@@ -17,8 +17,8 @@ The app uses the following tools and frameworks:
  * [Spring Boot](https://spring.io/projects/spring-boot) and [Spring Cloud Function](https://spring.io/projects/spring-cloud-function) to implement the functions.
  * The [AWS SDK for Java 2.x](https://docs.aws.amazon.com/sdk-for-java/latest/developer-guide/get-started.html) to connect to the DynamoDB.
  * The [Serverless Framework](https://www.serverless.com/) to deploy the whole application on AWS.
-   * Including the definition of the API endpoints and the DynamoDB table; see the [serverless.yml](https://github.com/stefan-ka/tla-sample-serverless/blob/main/serverless.yml) file. 
- * [GitHub Actions](https://github.com/stefan-ka/tla-sample-serverless/actions) as CI/CD tool to automatically deploy the app to AWS.
+   * Including the definition of the API endpoints and the DynamoDB table; see the [serverless.yml](https://github.com/OST-Cloud-Application-Lab/tla-sample-serverless/blob/main/serverless.yml) file. 
+ * [GitHub Actions](https://github.com/OST-Cloud-Application-Lab/tla-sample-serverless/actions) as CI/CD tool to automatically deploy the app to AWS.
 
 ## Build and Deploy the App
 
